@@ -10,7 +10,7 @@
 
 # Summary:
 
-The DVM should support price requests for the xSushi staking APY derived from 7 days of sushi yield data, assuming weekly compounding.
+The DVM should support price requests for the xSushi APY derived from 7 days of sushi yield data, assuming weekly compounding.
 
 # Motivation:
 
@@ -101,17 +101,17 @@ To further clarify the identifier, below is an example of the calculation. Pleas
 
 We can back out the xSushi yield between 16 July 2021 and 22 July 2021 as follows: 
 
-Get the 7 day yield:
+Firstly, get the 7 day yield:
 
 (1.1689649745808/1.1679843569031) - 1 = 0.00083958117
 
-For this synthetic we assume weekly compounding, and can annualize it as follows:
+Secondly, as we assume weekly compounding the above value is annualized as follows:
 
 (((1 + 0.00083958117) ^ 52) - 1) = 0.044606128430
 
-And to make trading more intuitive (If synth trades for $4.46 it implies 4.46% APY) we multiply by 100 and round to 10 decimals:
+And to make trading more intuitive (e.g. if synth trades for $4.46 it implies 4.46% APY) we multiply by 100 and round to 4 decimals:
 
-0.044606128430 * 100 = 4.4606128430
+0.044606128430 * 100 = 4.4606
 
 # Security Considerations:
 
