@@ -16,8 +16,9 @@ The DVM should support price requests for the xSushi staking APY derived from 7 
 
 Across Defi there exists no product in which traders can express views on the rate of change of market making yields in AMM’s in a non capital intensive way. As swap fees are a direct proxy for volume/volatility, there are many parties that would benefit if such a product existed. Two groups who would likely balance short and long interest, namely:
 
-Potential short party: Market makers, miners, MEV searchers, Sushiswap and xSushi holders (assuming sufficient liquidity) could hedge revenues by shorting this synthetic if they believe that volume is likely to decline as all parties have revenues correlated to volume.
-Potential long party: Speculators can take leveraged bets on the direction of swap fees/volume. The leverage is implicit as taking bets on the xSushi yield through this synthetic does not require the capital intensive depositing of Sushi in return for xSushi.
+**Potential short party**: Market makers, miners, MEV searchers, Sushiswap and xSushi holders (assuming sufficient liquidity) could hedge revenues by shorting this synthetic if they believe that volume is likely to decline as all parties have revenues correlated to volume.
+
+**Potential long party**: Speculators can take leveraged bets on the direction of swap fees/volume/volatility. The leverage is implicit as taking bets on the xSushi yield through this synthetic does not require the capital intensive depositing of Sushi in return for xSushi.
 
 # Data Specifications:
 
@@ -34,7 +35,7 @@ All relevant price data is computed using information that can be found directly
 * Price identifier name: `XSUSHI_7D_APY`
 * Base Currency: XSUSHI 7D APY
 * Quote Currency: DAI
-* Rounding: Round to 10 decimal places (eleventh decimal place digit >= 5 rounds up and < 5 rounds down)
+* Rounding: Round to 4 decimal places (fifth decimal place digit >= 5 rounds up and < 5 rounds down)
 
 # Rationale:
 
@@ -52,7 +53,7 @@ The `XSUSHI_7D_APY` price would require the creation of a new price feed. The py
 
 ```python
 from web3 import Web3
-#connect to node
+#connect to archive node - note that infura doesn't offer free archive node services
 w3 = some_archive_node_connection
 
 #create the contract objects, using relevant addresses and abi's easily found on etherscan
@@ -82,9 +83,9 @@ Formally the `XSUSHI_7D_APY` pricing identifier calculation is defined as:
 
 where:
 
-<img src="https://render.githubusercontent.com/render/math?math={r_1}"> = sushi:xsushi latest ratio
+<img src="https://render.githubusercontent.com/render/math?math={r_1}"> = Sushi:xSushi latest ratio
 
-<img src="https://render.githubusercontent.com/render/math?math={r_0}"> = sushi:xsushi ratio 7 days ago
+<img src="https://render.githubusercontent.com/render/math?math={r_0}"> = Sushi:xSushi ratio 7 days ago
 
 To further clarify the identifier, below is an example of the calculation. Please note for illustrative purposes there has been rounding to 13 decimal places (in the actual price identifier please retain all decimals until final rounding)
 
@@ -114,6 +115,6 @@ And to make trading more intuitive (If synth trades for $4.46 it implies 4.46% A
 
 # Security Considerations:
 
-First and foremost, manipulating any volume based synthetic asset can be achieved relatively cheaply if a relevant pricing identifier is constructed naively. In the rationale section two strong cases are made for why this price identifier is resistant against common volume manipulation techniques such as wash trading. Employing these safeguards in this price identifier significantly raises the cost of manipulation, to such a degree that the price identifier should be secure to underpin financial contracts.
+First and foremost, manipulating any volume based synthetic asset can be achieved relatively cheaply if a relevant pricing identifier is constructed naively. In the rationale section two strong cases are made for why this price identifier is resistant against common volume manipulation techniques such as wash trading. Employing these safeguards in the construction of this price identifier significantly raises the cost of manipulation, to such a degree that the price identifier should be secure enough to safely underpin financial contracts.
 
 It is also recommended that this price identifier is to be used in combination with the LSP financial contract that has a native upper bound. This limited upside is a further security measure on the price identifier as it lowers potential profitability of any attempted manipulation.
