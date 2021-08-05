@@ -109,7 +109,7 @@ Secondly, as we assume weekly compounding the above value is annualized as follo
 
 (((1 + 0.00083958117) ^ 52) - 1) = 0.044606128430
 
-And to make trading more intuitive (e.g. if synth trades for $4.46 it implies 4.46% APY) we multiply by 100 and round to 4 decimals:
+And to make trading more intuitive (e.g. if synth trades for $4.4606 it implies 4.4606% APY) we multiply by 100 and round to 4 decimals:
 
 0.044606128430 * 100 = 4.4606
 
